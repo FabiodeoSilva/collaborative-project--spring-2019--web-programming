@@ -10,7 +10,9 @@ let cry = () => {
   console.log("cry");
 };
 
-let sayStage = new Stage(0, 10, [say, cry]);
+let sayStage = new Stage(0, 50, [say, cry]);
+let cryStage = new Stage(1, 50, [say, cry]);
+let dryStage = new Stage(2, 50, [say, cry]);
 
-const haunter = new Haunter(1, [sayStage]);
+const haunter = new Haunter(2, [sayStage, cryStage, dryStage]);
 haunter.init();
