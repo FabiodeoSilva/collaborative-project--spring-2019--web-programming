@@ -4,6 +4,7 @@ class Stage {
     this.percent = percent;
     this.activation = false;
     this.curses = curses;
+    this.transition;
     this.range = [];
   }
   getTimeLength(maxSeconds) {
@@ -19,6 +20,10 @@ class Stage {
     this.curses.forEach(curse => {
       curse();
     });
+  }
+  randomCurse() {
+    let i = Math.floor(Math.random() * this.curses.length);
+    this.curses[i]();
   }
   say(t) {
     console.log(this.getTimeLength(t));

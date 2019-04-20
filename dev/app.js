@@ -22,9 +22,12 @@ let bye = () => {
   console.log("bye");
 };
 
-let sayStage = new Stage(0, 50, [say, cry]);
-let cryStage = new Stage(1, 50, [why, fry]);
-let dryStage = new Stage(2, 50, [say, bye]);
+let arr = [say, cry],
+  brr = [why, fry],
+  crr = [say, bye];
+let sayStage = new Stage(0, 50, arr);
+let cryStage = new Stage(1, 50, brr);
+let dryStage = new Stage(2, 50, crr);
 
-const haunter = new Haunter(7 * 60, [sayStage, cryStage, dryStage]);
+const haunter = new Haunter(30, [sayStage, cryStage, dryStage]);
 haunter.init();

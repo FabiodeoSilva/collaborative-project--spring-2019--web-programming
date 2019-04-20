@@ -4,7 +4,7 @@ class Haunter {
   constructor(maxSecs, stages) {
     this.stages = stages;
     this.currStage = this.stages[0];
-    this.currSecs = 1;
+    this.currSecs = 0;
     this.maxSecs = maxSecs;
     this.checkStageTimeLimit();
     this.setStageTimeRange();
@@ -51,8 +51,8 @@ class Haunter {
   setTimer() {
     this.timerID = setInterval(() => {
       if (this.currSecs < this.maxSecs) {
-        this.update();
         this.currSecs += 1;
+        this.update();
       } else {
         this.killTimer();
       }
@@ -85,7 +85,8 @@ class Haunter {
     ) {
       this.nextStage();
       console.log("Stage " + this.currStage.id + ": activates");
-      this.currStage.executeAllCurses();
+      //this.currStage.executeAllCurses();
+      this.currStage.randomCurse();
     }
   }
 
