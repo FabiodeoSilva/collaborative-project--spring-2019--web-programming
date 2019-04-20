@@ -17,7 +17,7 @@ let sStage = new Stage(3, 50, [say, cry]);
 let cStage = new Stage(4, 50, [say, cry]);
 let dStage = new Stage(5, 50, [say, cry]);
 
-const haunter = new Haunter(30, [
+const haunter = new Haunter(20, [
   sayStage,
   cryStage,
   dryStage,
