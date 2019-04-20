@@ -1,5 +1,5 @@
-const Haunter = require("haunter");
-const Stage = require("stage");
+const Haunter = require("./model/haunter");
+const Stage = require("./model/stage");
 
 ("using namespace");
 
@@ -10,19 +10,21 @@ let cry = () => {
   console.log("cry");
 };
 
-let sayStage = new Stage(0, 50, [say, cry]);
-let cryStage = new Stage(1, 50, [say, cry]);
-let dryStage = new Stage(2, 50, [say, cry]);
-let sStage = new Stage(3, 50, [say, cry]);
-let cStage = new Stage(4, 50, [say, cry]);
-let dStage = new Stage(5, 50, [say, cry]);
+let why = () => {
+  console.log("why");
+};
 
-const haunter = new Haunter(20, [
-  sayStage,
-  cryStage,
-  dryStage,
-  sStage,
-  cStage,
-  dStage
-]);
+let fry = () => {
+  console.log("fry");
+};
+
+let bye = () => {
+  console.log("bye");
+};
+
+let sayStage = new Stage(0, 50, [say, cry]);
+let cryStage = new Stage(1, 50, [why, fry]);
+let dryStage = new Stage(2, 50, [say, bye]);
+
+const haunter = new Haunter(7 * 60, [sayStage, cryStage, dryStage]);
 haunter.init();
