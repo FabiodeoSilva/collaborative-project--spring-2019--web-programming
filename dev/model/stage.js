@@ -1,11 +1,13 @@
 class Stage {
-  constructor(id, percent, curses) {
+  constructor(id, timeLengthPercentage, curses, randomInvocation) {
     this.id = id;
-    this.percent = percent;
+    this.percent = timeLengthPercentage;
     this.activation = false;
     this.curses = curses;
+    this.currCurseIndex = 0;
     this.transition;
     this.range = [];
+    this.randomInvocation = randomInvocation;
   }
   getTimeLength(maxSeconds) {
     return (this.time = Math.round((maxSeconds * this.percent) / 100));
@@ -21,12 +23,44 @@ class Stage {
       curse();
     });
   }
-  randomCurse() {
+  randomCurse(...parameter) {
     let i = Math.floor(Math.random() * this.curses.length);
-    this.curses[i]();
+    this.curses[i](...parameter);
   }
-  say(t) {
-    console.log(this.getTimeLength(t));
+  activate() {
+    if (!this.activation) {
+      this.activation = true;
+      this.randomActivationOrder();
+    }
+  }
+  deactivate() {
+    this.activation = false;
+  }
+  randomActivationOrder() {
+    this.order = [];
+    for (let i = 0; i <= this.curses.length; i++) {
+      this.order[i] = this.random(this.range[0], this.range[1]);
+    }
+  }
+  random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  execute(t) {
+    if (this.activation) {
+      for (let i = 0; i <= this.order.length; i++) {
+        if (t === this.order[i]) {
+          if (this.randomInvocation) {
+            this.randomCurse(this.id);
+          } else {
+            this.curses[this.currCurseIndex](this.id);
+            if (this.currCurseIndex < this.curses.length - 1)
+              this.currCurseIndex++;
+          }
+        }
+      }
+    }
   }
 }
 

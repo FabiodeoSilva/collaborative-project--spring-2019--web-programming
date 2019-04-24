@@ -78,7 +78,7 @@ class Haunter {
     let except = this.stages[0].range[1];
     if (this.currSecs === 1) {
       console.log("Stage " + this.currStage.id + ": activated");
-      this.currStage.executeAllCurses();
+      this.currStage.activate();
     } else if (
       this.currSecs === except ||
       this.currSecs === this.currStage.range[1]
@@ -86,12 +86,20 @@ class Haunter {
       this.nextStage();
       console.log("Stage " + this.currStage.id + ": activates");
       //this.currStage.executeAllCurses();
-      this.currStage.randomCurse();
+      this.currStage.activate();
     }
+  }
+  executeActivatedStages() {
+    this.stages.forEach(stage => {
+      if (stage.activation) {
+        stage.execute(this.currSecs);
+      }
+    });
   }
 
   update() {
     this.checkCurrStage();
+    this.executeActivatedStages();
     console.log(this.currSecs, this.currStage.id);
   }
 
