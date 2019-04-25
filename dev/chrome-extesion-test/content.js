@@ -23,7 +23,7 @@
       if (cursedImg.parentElement.tagName === "A") {
         cursedImg.parentElement.href = destinationURL;
       }
-      cursedImg.addEventListener("click", () => {
+      cursedImg.parentElement.addEventListener("click", () => {
         window.location.href = destinationURL;
       });
     }
