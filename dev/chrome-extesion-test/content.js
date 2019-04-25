@@ -7,7 +7,32 @@
     console.log(response);
   });
 
-  function activateCursedImage(imgUrl, destinationURL) {
+  let setupCanvas = () => {
+    let p5Canvas = s => {
+      s.setup = () => {
+        let h = document.body.clientHeight;
+        c = s.createCanvas(s.windowWidth, s.windowHeight);
+        c.position(0, 0);
+        c.style("pointer-events", "none");
+        c.style("position", "fixed");
+        c.style("z-index", 999);
+      };
+
+      s.draw = () => {
+        s.stroke("red");
+        s.noFill();
+      };
+
+      s.mouseMoved = () => {
+        s.clear();
+        s.ellipse(s.mouseX, s.mouseY, 80);
+      };
+    };
+    let myp5 = new p5(p5Canvas);
+  };
+  setupCanvas();
+
+  let activateCursedImage = (imgUrl, destinationURL) => {
     let imgsArr = document.querySelectorAll("img");
     let bigImgs = [];
     imgsArr.forEach(img => {
@@ -27,15 +52,15 @@
         window.location.href = destinationURL;
       });
     }
-  }
+  };
   function random(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  activateCursedImage(
+  /*activateCursedImage(
     "https://vignette.wikia.nocookie.net/dreamworks/images/5/54/Rico03.png/revision/latest?cb=20150717211446",
     "https://github.com/"
-  );
+  );*/
 })();
