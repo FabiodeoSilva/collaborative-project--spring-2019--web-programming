@@ -1,15 +1,16 @@
 console.log("background running");
 
-chrome.storage.sync.get(function(data){
-    if(!data.urls){
-        chrome.storage.sync.set({urls: [] });
-    }   
+function answer(response) {
+  console.log(response);
+}
+
+chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
+  console.log(message);
+  sendResponse({ message: "puta" });
 });
 
-chrome.extension.onMessage.addListener(
- function(message, sender, sendResponse) {
-    if(!data.clickCounter){
-            chrome.storage.sync.set({clickCounter: 0, noteText:""})
-    }
-
-});
+let x = 0;
+setInterval(() => {
+  console.log(x);
+  x++;
+}, 1000);

@@ -77,14 +77,20 @@ class Haunter {
     }*/
     let except = this.stages[0].range[1];
     if (this.currSecs === 1) {
-      console.log("Stage " + this.currStage.id + ": activated");
+      console.log(
+        "Stage " + this.currStage.id + ": activated",
+        this.currStage.order
+      );
       this.currStage.activate();
     } else if (
       this.currSecs === except ||
       this.currSecs === this.currStage.range[1]
     ) {
       this.nextStage();
-      console.log("Stage " + this.currStage.id + ": activates");
+      console.log(
+        "Stage " + this.currStage.id + ": activates",
+        this.currStage.order
+      );
       //this.currStage.executeAllCurses();
       this.currStage.activate();
     }

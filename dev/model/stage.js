@@ -36,6 +36,11 @@ class Stage {
   deactivate() {
     this.activation = false;
   }
+  executeAllCursesAtOnce(...para) {
+    this.curses.forEach(curse => {
+      curse(...para);
+    });
+  }
   randomActivationOrder() {
     this.order = [];
     for (let i = 0; i <= this.curses.length; i++) {

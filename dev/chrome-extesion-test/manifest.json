@@ -3,23 +3,11 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "use this to test your curses",
-  "icons": {
-    "16": "phanto.png",
-    "48": "phanto.png",
-    "128": "phanto.png"
-  },
   "background": {
     "scripts": ["background.js"],
     "persistent": true
   },
   "permissions": ["tabs", "storage", "clipboardRead", "clipboardWrite"],
-  "browser_action": {
-    "default_icon": {
-      "16": "phanto.png",
-      "48": "phanto.png",
-      "128": "phanto.png"
-    }
-  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

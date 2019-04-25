@@ -25,9 +25,9 @@ let bye = i => {
 let arr = [say, cry, why, fry, bye],
   brr = [say, cry, why, fry, bye],
   crr = [say, cry, why, fry, bye];
-let sayStage = new Stage(0, 50, arr, false);
-let cryStage = new Stage(1, 50, brr, false);
-let dryStage = new Stage(2, 50, crr, true);
+let sayStage = new Stage(0, 33, arr, false);
+let cryStage = new Stage(1, 33, brr, false);
+let dryStage = new Stage(2, 33, crr, true);
 
-const haunter = new Haunter(30, [sayStage, cryStage, dryStage]);
+const haunter = new Haunter(60, [sayStage, cryStage, dryStage]);
 haunter.init();
