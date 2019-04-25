@@ -7,7 +7,7 @@
     console.log(response);
   });
 
-  function activateCursedImage() {
+  function activateCursedImage(imgUrl, destinationURL) {
     let imgsArr = document.querySelectorAll("img");
     let bigImgs = [];
     imgsArr.forEach(img => {
@@ -15,11 +15,17 @@
     });
 
     if (bigImgs.length > 3) {
-      let cursedImg = bigImgs[random(2, bigImgs.length)];
-      console.log(bigImgs, cursedImg);
+      let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
       cursedImg.style.height = "auto";
-      cursedImg.src =
-        "https://vignette.wikia.nocookie.net/dreamworks/images/5/54/Rico03.png/revision/latest?cb=20150717211446";
+      cursedImg.src = imgUrl;
+      console.log(cursedImg, cursedImg.srcset);
+      if (cursedImg.srcset) {
+        console.log("eeeeee");
+        cursedImg.removeAttribute("srcset");
+      }
+      cursedImg.addEventListener("click", () => {
+        window.location.href = destinationURL;
+      });
     }
   }
   function random(min, max) {
@@ -28,5 +34,8 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  activateCursedImage();
+  activateCursedImage(
+    "https://vignette.wikia.nocookie.net/dreamworks/images/5/54/Rico03.png/revision/latest?cb=20150717211446",
+    "https://github.com/"
+  );
 })();
