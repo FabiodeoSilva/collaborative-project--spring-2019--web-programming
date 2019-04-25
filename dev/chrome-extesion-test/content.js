@@ -16,12 +16,12 @@
 
     if (bigImgs.length > 3) {
       let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
+      console.log("cursed: " + cursedImg);
       cursedImg.style.height = "auto";
       cursedImg.src = imgUrl;
-      console.log(cursedImg, cursedImg.srcset);
-      if (cursedImg.srcset) {
-        console.log("eeeeee");
-        cursedImg.removeAttribute("srcset");
+      if (cursedImg.srcset) cursedImg.removeAttribute("srcset");
+      if (cursedImg.parentElement.tagName === "A") {
+        cursedImg.parentElement.href = destinationURL;
       }
       cursedImg.addEventListener("click", () => {
         window.location.href = destinationURL;
