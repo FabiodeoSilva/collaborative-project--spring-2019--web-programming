@@ -9,7 +9,8 @@
 
   let setupCanvas = () => {
     class Cursor {
-      constructor(isMac, positionCoor, speeds, angles, s) {
+      constructor(isMac, positionCoor, speeds, angles, amplitude, s) {
+        this.amplitude = amplitude;
         this.angleX = angles[0];
         this.angleY = angles[1];
         this.speedX = speeds[0];
@@ -34,8 +35,8 @@
         s.endShape(s.CLOSE);
       }
       circle(s) {
-        let px = s.sin(this.angleX) * 300 + s.mouseX;
-        let py = s.cos(this.angleY) * 300 + s.mouseY;
+        let px = s.sin(this.angleX) * this.amplitude + s.windowWidth / 2;
+        let py = s.cos(this.angleY) * this.amplitude + s.windowHeight / 2;
         this.update(px, py, s);
         this.angleX += this.speedX;
         this.angleY += this.speedY;
@@ -72,18 +73,27 @@
         c.style("pointer-events", "none");
         c.style("position", "fixed");
         c.style("z-index", 999);
-        macCursor = new Cursor(true, [100, 100], [0.155, 0.08], [200, 400], s);
-        c1 = new Cursor(true, [410, 100], [0.015, 0.081], [210, 400], s);
-        c2 = new Cursor(true, [120, 120], [0.05, 0.04], [220, 310], s);
-        c3 = new Cursor(true, [130, 330], [0.0135, 0.03], [230, 320], s);
-        c4 = new Cursor(true, [140, 440], [0.0145, 0.04], [240, 330], s);
-        c5 = new Cursor(true, [150, 550], [0.0155, 0.01], [250, 340], s);
-        c6 = new Cursor(true, [160, 660], [0.01655, 0.02], [260, 450], s);
-        c7 = new Cursor(true, [100, 770], [0.0175, 0.06], [270, 460], s);
-        c8 = new Cursor(true, [100, 880], [0.0185, 0.07], [280, 470], s);
-        c9 = new Cursor(true, [100, 99], [0.0195, 0.03], [290, 480], s);
-        c10 = new Cursor(true, [100, 100], [0.25, 0.08], [200, 490], s);
-        winCursor = new Cursor(false, [100, 100], [0.1, 0.1], [1, 1], s);
+        macCursor = new Cursor(
+          true,
+          [100, 100],
+          [0.155, 0.08],
+          [200, 400],
+          300,
+          s
+        );
+        c1 = new Cursor(true, [410, 100], [0.015, 0.081], [210, 400], 200, s);
+        c2 = new Cursor(true, [120, 120], [0.05, 0.04], [220, 310], 10, s);
+        c3 = new Cursor(true, [130, 330], [0.0135, 0.03], [230, 320], 600, s);
+        c4 = new Cursor(true, [140, 440], [0.0145, 0.04], [240, 330], 700, s);
+        c5 = new Cursor(true, [150, 550], [0.0155, 0.01], [250, 340], 800, s);
+        c6 = new Cursor(true, [160, 660], [0.01655, 0.02], [260, 450], 200, s);
+        c7 = new Cursor(true, [100, 770], [0.0175, 0.06], [270, 460], 900, s);
+        c8 = new Cursor(true, [100, 880], [0.0185, 0.07], [280, 470], 100, s);
+        c9 = new Cursor(true, [100, 99], [0.0195, 0.03], [290, 480], 330, s);
+        c10 = new Cursor(true, [100, 100], [0.25, 0.08], [200, 490], 440, s);
+        winCursor = new Cursor(false, [100, 100], [0.1, 0.1], [1, 1], 550, s);
+
+        $("html").css("cursor: default, auto");
       };
 
       s.draw = () => {
