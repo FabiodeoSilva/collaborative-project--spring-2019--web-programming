@@ -15,6 +15,7 @@
         this.angleY = angles[1];
         this.speedX = speeds[0];
         this.speedY = speeds[1];
+        this.swarmArr = [];
         if (isMac) {
           console.log("ssss");
           this.cursorStroke = "white";
@@ -34,6 +35,7 @@
         });
         s.endShape(s.CLOSE);
       }
+
       circle(s) {
         let px = s.sin(this.angleX) * this.amplitude + s.windowWidth / 2;
         let py = s.cos(this.angleY) * this.amplitude + s.windowHeight / 2;
@@ -42,22 +44,59 @@
         this.angleY += this.speedY;
       }
       update(x, y, s) {
+        let prop = 13;
         this.vertices = [
-          [x, y],
-          [x, y + 16],
+          /*[x, y],
+          [x, y + 16.7],
           [x + 3.96, y + 12.6],
           [x + 7.5, y + 21.43],
           [x + 10, y + 20.1],
           [x + 6.7, y + 12],
-          [x + 12.2, y + 12]
+          [x + 12.2, y + 12]*/
+          [x, y],
+          [x, y + 167 / prop],
+          [x + 39 / prop, y + 129 / prop],
+          [x + 75 / prop, y + 214 / prop],
+          [x + 100 / prop, y + 201 / prop],
+          [x + 66 / prop, y + 115 / prop],
+          [x + 122 / prop, y + 115 / prop]
         ];
         this.draw(s);
+      }
+
+      static swarm(amount, isMac, s) {
+        this.swarmArr = [];
+        let temp,
+          positionCoor = [],
+          speeds = [],
+          angles = [],
+          r,
+          amplitude;
+        for (let i = 0; i < amount; i++) {
+          positionCoor = [0, 0];
+
+          speeds = [
+            Math.abs(random(0, 0.2, true) / 50),
+            Math.abs(random(0, 0.2, true) / 50)
+          ];
+          console.log(speeds);
+          angles = [0, 0];
+          amplitude = random(20, 1000);
+          temp = new Cursor(isMac, positionCoor, speeds, angles, amplitude, s);
+          this.swarmArr.push(temp);
+        }
+        return this.swarmArr;
+      }
+      swarmRandom(s) {
+        this.swarmArr.forEach(cursor => {
+          cursor.cricle(s);
+        });
       }
     }
 
     let p5Canvas = s => {
       let macCursor, winCursor;
-      let c1, c2, c3, c4, c5, c6, c7, c8, c9, c10;
+      let c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, swarm;
 
       /*s.preload = () => {
         macCursor = s.loadImage("media/mac-cursor.png");
@@ -81,7 +120,12 @@
           300,
           s
         );
-        c1 = new Cursor(true, [410, 100], [0.015, 0.081], [210, 400], 200, s);
+
+        c1 = Cursor.swarm(300, true, s);
+
+        c2 = new Cursor(true, [120, 120], [0.06, 0.091], [0, 0], 300, s);
+
+        /*c1 = new Cursor(true, [410, 100], [0.015, 0.081], [210, 400], 200, s);
         c2 = new Cursor(true, [120, 120], [0.05, 0.04], [220, 310], 10, s);
         c3 = new Cursor(true, [130, 330], [0.0135, 0.03], [230, 320], 600, s);
         c4 = new Cursor(true, [140, 440], [0.0145, 0.04], [240, 330], 700, s);
@@ -91,15 +135,17 @@
         c8 = new Cursor(true, [100, 880], [0.0185, 0.07], [280, 470], 100, s);
         c9 = new Cursor(true, [100, 99], [0.0195, 0.03], [290, 480], 330, s);
         c10 = new Cursor(true, [100, 100], [0.25, 0.08], [200, 490], 440, s);
-        winCursor = new Cursor(false, [100, 100], [0.1, 0.1], [1, 1], 550, s);
-
-        $("html").css("cursor: default, auto");
+        winCursor = new Cursor(false, [100, 100], [0.1, 0.1], [1, 1], 550, s);*/
       };
 
       s.draw = () => {
         s.clear();
+        c1.forEach(cursor => {
+          cursor.circle(s);
+        });
+        c2.circle(s);
         // winCursor.update(s.cos(2 * i), 200, s);
-        c1.circle(s);
+        /*c1.circle(s);
         c2.circle(s);
         c3.circle(s);
         c4.circle(s);
@@ -108,7 +154,9 @@
         c7.circle(s);
         c8.circle(s);
         console.log("c1 ", c1);
-        console.log("c2 ", c2);
+        console.log("c2 ", c2);*/
+
+        document.querySelector("input, button, a").style.cursor = "initial";
       };
 
       s.mouseMoved = () => {
@@ -142,10 +190,16 @@
       });
     }
   };
-  function random(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  function random(min, max, decimal = false) {
+    if (!decimal) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    } else {
+      min = min;
+      max = max;
+      return Math.random() * (max - min + 1) + min;
+    }
   }
 
   /*activateCursedImage(
