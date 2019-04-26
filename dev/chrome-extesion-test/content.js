@@ -9,20 +9,36 @@
 
   let setupCanvas = () => {
     class Cursor {
-      constructor(type, positionCoor, speed, s) {
-        this.type = type;
-        this.speed = speed;
+      constructor(isMac, positionCoor, speeds, angles, s) {
+        this.angleX = angles[0];
+        this.angleY = angles[1];
+        this.speedX = speeds[0];
+        this.speedY = speeds[1];
+        if (isMac) {
+          console.log("ssss");
+          this.cursorStroke = "white";
+          this.cursorColor = "black";
+        } else {
+          this.cursorStroke = "black";
+          this.cursorColor = "white";
+        }
         this.update(positionCoor[0], positionCoor[1], s);
       }
       draw(s) {
-        s.clear();
-        s.fill("black");
-        s.stroke("white");
+        s.fill(this.cursorColor);
+        s.stroke(this.cursorStroke);
         s.beginShape();
         this.vertices.forEach(coor => {
           s.vertex(coor[0], coor[1]);
         });
         s.endShape(s.CLOSE);
+      }
+      circle(s) {
+        let px = s.sin(this.angleX) * 300 + s.mouseX;
+        let py = s.cos(this.angleY) * 300 + s.mouseY;
+        this.update(px, py, s);
+        this.angleX += this.speedX;
+        this.angleY += this.speedY;
       }
       update(x, y, s) {
         this.vertices = [
@@ -39,9 +55,8 @@
     }
 
     let p5Canvas = s => {
-      let macCursor,
-        winCursor,
-        i = 1;
+      let macCursor, winCursor;
+      let c1, c2, c3, c4, c5, c6, c7, c8, c9, c10;
 
       /*s.preload = () => {
         macCursor = s.loadImage("media/mac-cursor.png");
@@ -57,13 +72,33 @@
         c.style("pointer-events", "none");
         c.style("position", "fixed");
         c.style("z-index", 999);
-        // s.image(macCursor, 100, 100);
-        macCursor = new Cursor("mac", [100, 100], 100, s);
+        macCursor = new Cursor(true, [100, 100], [0.155, 0.08], [200, 400], s);
+        c1 = new Cursor(true, [410, 100], [0.015, 0.081], [210, 400], s);
+        c2 = new Cursor(true, [120, 120], [0.05, 0.04], [220, 310], s);
+        c3 = new Cursor(true, [130, 330], [0.0135, 0.03], [230, 320], s);
+        c4 = new Cursor(true, [140, 440], [0.0145, 0.04], [240, 330], s);
+        c5 = new Cursor(true, [150, 550], [0.0155, 0.01], [250, 340], s);
+        c6 = new Cursor(true, [160, 660], [0.01655, 0.02], [260, 450], s);
+        c7 = new Cursor(true, [100, 770], [0.0175, 0.06], [270, 460], s);
+        c8 = new Cursor(true, [100, 880], [0.0185, 0.07], [280, 470], s);
+        c9 = new Cursor(true, [100, 99], [0.0195, 0.03], [290, 480], s);
+        c10 = new Cursor(true, [100, 100], [0.25, 0.08], [200, 490], s);
+        winCursor = new Cursor(false, [100, 100], [0.1, 0.1], [1, 1], s);
       };
 
       s.draw = () => {
-        macCursor.update(i, i * 2, s);
-        i++;
+        s.clear();
+        // winCursor.update(s.cos(2 * i), 200, s);
+        c1.circle(s);
+        c2.circle(s);
+        c3.circle(s);
+        c4.circle(s);
+        c5.circle(s);
+        c6.circle(s);
+        c7.circle(s);
+        c8.circle(s);
+        console.log("c1 ", c1);
+        console.log("c2 ", c2);
       };
 
       s.mouseMoved = () => {
