@@ -121,7 +121,7 @@
           s
         );
 
-        c1 = Cursor.swarm(300, true, s);
+        c1 = Cursor.swarm(400, true, s);
 
         c2 = new Cursor(true, [120, 120], [0.06, 0.091], [0, 0], 300, s);
 
