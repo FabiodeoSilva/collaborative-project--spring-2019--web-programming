@@ -19,29 +19,16 @@
     }
   }
 
-  let zalgofy = () => {
-    let title = document.querySelector("h1");
+  let zalgofy = querySelector => {
+    let title = document.querySelector(querySelector);
     let titleArr = title.innerHTML.split(" ");
-    let retWord = [],
-      retH1 = [];
+    let weirdWord = "";
+
     titleArr.forEach(word => {
-      [...word].forEach(char => {
-        let r = random(0, 30),
-          weird = "";
-
-        for (let i = 0; i <= r; i++) {
-          weird += `&#${random(768, 879)};`;
-        }
-
-        char += weird;
-        retWord.push(char);
-      });
-      console.log(retH1);
-      retH1.push(retWord.join(""));
-      retWord = [];
+      weirdWord += zalgoText(word);
     });
 
-    title.innerHTML = retH1.flat().join(" ");
+    title.innerHTML = weirdWord;
   };
 
   let zalgoText = word => {
@@ -63,5 +50,5 @@
     return retWord.join("");
   };
 
-  zalgoText();
+  zalgofy("h2");
 })();
