@@ -6,7 +6,6 @@ function answer(response) {
 
 chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
   console.log(message);
-  sendResponse({ message: "puta" });
 });
 
 let x = 0;
