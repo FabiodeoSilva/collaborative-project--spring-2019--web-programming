@@ -61,9 +61,17 @@ let winds = [
 ];
 
 let openTabs = amount => {
-  let i = 0;
+  let i = -1;
 
-  setInterval(() => {
+  let interval = setInterval(() => {
+    console.log(i, winds.length - 1, i <= winds.length - 1);
+    if (i <= winds.length - 1) i++;
+    else {
+      i = 0;
+      console.log("here");
+      clearInterval(interval);
+    }
+
     chrome.windows.create(
       {
         url: "https://www.google.com/",
@@ -73,18 +81,12 @@ let openTabs = amount => {
         top: winds[i].top,
         left: winds[i].left
       },
-      t => {
-        chrome.tabs.query(tabs => {
-          console.log(tabs, t.id);
-        });
-
+      w => {
         setTimeout(() => {
-          chrome.tabs.remove({ tabId: t.id });
-        }, 1000);
+          chrome.windows.remove(w.id);
+        }, 200);
       }
     );
-    if (i <= winds.length - 1) i++;
-    else i = 0;
-  }, 2000);
+  }, 200);
 };
 openTabs();
