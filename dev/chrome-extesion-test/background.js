@@ -33,7 +33,7 @@ chrome.tabs.query({ active: false }, tabs => {
         chrome.tabs.move(tab.id, { index: i }, t => {});
         if (i <= tabs.length - 1) i++;
         else i = 0;
-      }, 1000);
+      }, 100);
     }
   });
 });
