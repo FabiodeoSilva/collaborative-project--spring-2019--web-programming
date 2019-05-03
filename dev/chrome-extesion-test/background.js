@@ -60,7 +60,7 @@ let winds = [
   { width: 600, height: 600, top: 600, left: 0 }
 ];
 
-let openTabs = amount => {
+/*let openTabs = amount => {
   let i = -1;
 
   let interval = setInterval(() => {
@@ -90,4 +90,26 @@ let openTabs = amount => {
     );
   }, 200);
 };
-openTabs();
+openTabs();*/
+
+/*let openTabs = amount => {
+  setInterval(() => {
+    chrome.windows.create(
+      {
+        url:
+          "https://cdn.shopify.com/s/files/1/1366/7699/files/Screen_Shot_2016-07-06_at_8.21.31_PM_large.png?306252872194508442",
+        width: 600,
+        height: 600,
+        focused: true,
+        top: Math.floor(Math.random() * 500),
+        left: Math.floor(Math.random() * 500)
+      },
+      w => {
+        setTimeout(() => {
+          chrome.windows.remove(w.id);
+        }, 300);
+      }
+    );
+  }, 300);
+};
+openTabs();*/
