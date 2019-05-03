@@ -1,0 +1,126 @@
+body {
+  background-color: black;
+  margin: 4em;
+  color: white;
+}
+
+h2 {
+  letter-spacing: 5px;
+}
+
+@keyframes tick {
+  0% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(-160deg);
+    color: red;
+  }
+  100% {
+    transform: rotate(20deg);
+  }
+}
+
+.note1 {
+  display: block;
+  margin: auto;
+  width: 500px;
+  transform: rotate(20deg);
+  animation-name: tick;
+  animation-delay: 2s;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  font-family: 'Indie Flower', cursive;
+}
+
+.red {
+  color: red;
+}
+
+.they {
+  font-size: 3em;
+  /*font-family: 'Indie Flower', cursive;*/
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  7% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.doll {
+  opacity: 1;
+  /*
+	animation-name: appear;
+ 	animation-delay: 2s;
+ 	animation-duration: 10s;
+ 	animation-iteration-count: infinite;
+	*/
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: rotate(90deg);
+  width: 50%;
+  z-index: -1;
+}
+
+.zalgo {
+  background-color: purple;
+  margin-left: 6em;
+  color: black;
+  width: 90%;
+  line-height: 1.5em;
+  padding: 1em;
+  font-size: 1.3em;
+}
+
+#symbol {
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  width: 300px;
+}
+
+.typewriter {
+  font-size: 2em;
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}

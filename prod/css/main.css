@@ -1,0 +1,66 @@
+body {
+  background-color: black;
+  margin: 2em;
+  color: white;
+}
+
+h2 {
+  letter-spacing: 5px;
+}
+
+@keyframes tick {
+  0% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(-160deg);
+    color: red;
+  }
+  100% {
+    transform: rotate(20deg);
+  }
+}
+
+.note1 {
+  display: block;
+  margin: auto;
+  width: 500px;
+  transform: rotate(20deg);
+  animation-name: tick;
+  animation-delay: 2s;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  font-family: 'Indie Flower', cursive;
+}
+
+.red {
+  color: red;
+}
+
+.they {
+  font-size: 3em;
+  font-family: 'Indie Flower', cursive;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  7% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.doll {
+  opacity: 0;
+  animation-name: appear;
+  animation-delay: 2s;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}

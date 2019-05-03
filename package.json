@@ -20,7 +20,8 @@
     "@babel/core": "^7.4.3",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
-    "gulp": "^4.0.0",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^4.0.1",
     "gulp-babel": "^8.0.0",
     "gulp-cache": "^1.1.1",
     "gulp-cli": "^2.1.0",
@@ -29,7 +30,12 @@
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^5.0.3",
     "gulp-sass": "^4.0.2",
+    "gulp-serve": "^1.4.0",
+    "gulp-stylelint": "^9.0.0",
     "gulp-uglify": "^3.0.2",
     "stylelint": "^10.0.1"
+  },
+  "dependencies": {
+    "browser-sync": "^2.26.5"
   }
 }
