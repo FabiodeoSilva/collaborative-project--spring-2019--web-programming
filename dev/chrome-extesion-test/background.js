@@ -69,12 +69,13 @@ let openTabs = amount => {
     else {
       i = 0;
       console.log("here");
-      clearInterval(interval);
+      //clearInterval(interval);
     }
 
     chrome.windows.create(
       {
-        url: "https://www.google.com/",
+        url:
+          "https://cdn.shopify.com/s/files/1/1366/7699/files/Screen_Shot_2016-07-06_at_8.21.31_PM_large.png?306252872194508442",
         width: 600,
         height: 600,
         focused: true,
