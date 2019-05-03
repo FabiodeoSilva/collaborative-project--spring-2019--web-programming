@@ -25,7 +25,7 @@ chrome.tabs.create(
   });
 });*/
 
-chrome.tabs.query({ active: false }, tabs => {
+/*chrome.tabs.query({ active: false }, tabs => {
   tabs.forEach(tab => {
     if (tab.url.includes(`encrypted`)) {
       let i = 0;
@@ -36,4 +36,55 @@ chrome.tabs.query({ active: false }, tabs => {
       }, 100);
     }
   });
-});
+});*/
+console.log(window.innerWidth);
+/*chrome.windows.create(
+  {
+    url:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR40ex4eo90Rze0GShebE-pZ7YcLTxmVFspfiyd6P_0ES0OD_YQ",
+    width: 600,
+    height: 600,
+    focused: true,
+    top: 0,
+    left: 0
+  },
+  t => {
+    console.log(t);
+  }
+);*/
+
+let winds = [
+  { width: 600, height: 600, top: 0, left: 0 },
+  { width: 600, height: 600, top: 0, left: 600 },
+  { width: 600, height: 600, top: 600, left: 600 },
+  { width: 600, height: 600, top: 600, left: 0 }
+];
+
+let openTabs = amount => {
+  let i = 0;
+
+  setInterval(() => {
+    chrome.windows.create(
+      {
+        url: "https://www.google.com/",
+        width: 600,
+        height: 600,
+        focused: true,
+        top: winds[i].top,
+        left: winds[i].left
+      },
+      t => {
+        chrome.tabs.query(tabs => {
+          console.log(tabs, t.id);
+        });
+
+        setTimeout(() => {
+          chrome.tabs.remove({ tabId: t.id });
+        }, 1000);
+      }
+    );
+    if (i <= winds.length - 1) i++;
+    else i = 0;
+  }, 2000);
+};
+openTabs();
