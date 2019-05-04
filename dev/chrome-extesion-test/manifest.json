@@ -14,5 +14,6 @@
       "js": ["jquery-1.11.1.min.js", "p5.js", "p5.dom.js", "content.js"],
       "css": ["style.css"]
     }
-  ]
+  ],
+  "web_accessible_resources": ["uncompressed-images/*.png", "../css/*.css"]
 }

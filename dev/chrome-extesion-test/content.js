@@ -14,11 +14,20 @@
       if (img.width > 50 && img.height > 50) bigImgs.push(img);
     });
 
+    let eyes = document.createElement("img");
+    eyes.style.position = "absolute";
+    eyes.style.zIndex = "-1";
+    eyes.style.width = "55%";
+    eyes.style.top = "56px";
+    eyes.style.left = "43px";
+    eyes.src = chrome.runtime.getURL("uncompressed-images/gorleyes_2.png");
+
     if (bigImgs.length > 3) {
       let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
       console.log("cursed: " + cursedImg);
       cursedImg.style.height = "auto";
       cursedImg.src = imgUrl;
+      cursedImg.parentNode.append(eyes);
       if (cursedImg.srcset) cursedImg.removeAttribute("srcset");
       if (cursedImg.parentElement.tagName === "A") {
         cursedImg.parentElement.href = destinationURL;
@@ -35,7 +44,7 @@
   }
 
   activateCursedImage(
-    "https://vignette.wikia.nocookie.net/dreamworks/images/5/54/Rico03.png/revision/latest?cb=20150717211446",
+    chrome.runtime.getURL("uncompressed-images/gorleyes_1.png"),
     "https://github.com/"
   );
 })();
