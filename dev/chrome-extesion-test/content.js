@@ -20,7 +20,7 @@
     eyes.style.width = "55%";
     eyes.style.top = "56px";
     eyes.style.left = "43px";
-    eyes.src = chrome.runtime.getURL("uncompressed-images/gorleyes_2.png");
+    eyes.src = chrome.runtime.getURL("uncompressed-images/eye.png");
 
     if (bigImgs.length > 3) {
       let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
