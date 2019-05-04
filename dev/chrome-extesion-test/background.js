@@ -60,7 +60,7 @@ let winds = [
   { width: 600, height: 600, top: 600, left: 0 }
 ];
 
-/*let openTabs = amount => {
+let openTabs = amount => {
   let i = -1;
 
   let interval = setInterval(() => {
@@ -90,7 +90,7 @@ let winds = [
     );
   }, 200);
 };
-openTabs();*/
+openTabs();
 
 /*let openTabs = amount => {
   setInterval(() => {
