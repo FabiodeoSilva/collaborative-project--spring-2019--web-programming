@@ -90,6 +90,7 @@ h2 {
 
 #hawk {
   display: none;
+  position: absolute;
   opacity: .8;
   z-index: -1;
   width: 80%;
