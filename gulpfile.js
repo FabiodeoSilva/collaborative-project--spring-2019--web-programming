@@ -102,12 +102,13 @@ let serve = () => {
     reloadDelay: 100, // A delay is sometimes helpful when reloading at the
     server: {
       // end of a series of tasks.
-      baseDir: [`${serveSrc}`, `html`]
+      baseDir: [`dev`, `html`]
     }
   });
 
-  watch(`index.html`).on(`change`, reload);
-  watch(`sass/main.scss`, series(compileCSS)).on(`change`, reload);
+  watch(`dev/index.html`).on(`change`, reload);
+  watch(`dev/sass/main.scss`, series(compileCSSdev)).on(`change`, reload);
+  watch(`dev/js/*.js`).on(`change`, reload);
 };
 
 let mkdirs = () => {
@@ -131,7 +132,7 @@ exports.build = series(
   compileCSS,
   serve
 );
-exports.serve = series(compileCSSdev, serve);
+exports.serve = series(serve,compileCSSdev);
 exports.compileCSSdev = compileCSSdev;
 exports.compressJS = compressJS;
 exports.compressImages = compressImages;
