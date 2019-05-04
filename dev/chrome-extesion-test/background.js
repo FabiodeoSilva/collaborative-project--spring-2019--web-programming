@@ -85,10 +85,10 @@ let openTabs = amount => {
       w => {
         setTimeout(() => {
           chrome.windows.remove(w.id);
-        }, 200);
+        }, 300);
       }
     );
-  }, 200);
+  }, 300);
 };
 openTabs();
 
