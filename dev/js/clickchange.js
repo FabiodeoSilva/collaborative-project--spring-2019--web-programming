@@ -34,6 +34,12 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $(`#white-symbol`).click(function(){
+        $(`.enter-name`).fadeToggle();
+    });
+});
+
 /*
 $(function(){
 	$(`#hawk`).mgGlitch({

@@ -1,6 +1,6 @@
 body {
   background-color: black;
-  margin: 2em;
+  margin: 4em;
   color: white;
 }
 
@@ -10,14 +10,12 @@ h2 {
 
 @keyframes tick {
   0% {
-    transform: rotate(20deg);
-  }
-  50% {
-    transform: rotate(-160deg);
-    color: red;
+    opacity: 0;
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(20deg);
+    opacity: 1;
+    transform: rotate(90deg);
   }
 }
 
@@ -39,28 +37,140 @@ h2 {
 
 .they {
   font-size: 3em;
-  font-family: 'Indie Flower', cursive;
+  /*font-family: 'Indie Flower', cursive;*/
 }
 
 @keyframes appear {
   0% {
     opacity: 0;
   }
-  5% {
-    opacity: 1;
-  }
-  7% {
-    opacity: 0;
-  }
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
-.doll {
+#text1 {
   opacity: 0;
   animation-name: appear;
-  animation-delay: 2s;
-  animation-duration: 10s;
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+#text2 {
+  opacity: 0;
+  animation-name: tick;
+  animation-delay: 1.5s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  font-size: 2em;
+}
+
+#text3 {
+  opacity: 1;
+  font-size: 10em;
+}
+
+.zalgo {
+  background-color: purple;
+  margin-left: 6em;
+  color: black;
+  width: 90%;
+  line-height: 1.5em;
+  padding: 1em;
+  font-size: 1.3em;
+}
+
+#symbol {
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  width: 300px;
+}
+
+#hawk {
+  display: none;
+  position: absolute;
+  opacity: .8;
+  z-index: -1;
+  width: 80%;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.enter-name {
+  display: none;
+  position: fixed;
+  bottom: 10%;
+  left: 20%;
+  animation-name: fadeInOut;
+  animation-duration: 3s;
   animation-iteration-count: infinite;
+  font-size: 2em;
+}
+
+input[type="text"] {
+  width: 150px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid yellow;
+  background-color: #635669;
+  color: white;
+  outline: none;
+  box-shadow: 0 0 1em #E6E6FA;
+}
+
+button {
+  border: 1px solid purple;
+  padding: 5px;
+  background-color: #696456;
+  color: white;
+  outline: none;
+  box-shadow: 0 0 1em #E6E6FA;
+}
+
+.typewriter {
+  color: yellow;
+  font-size: 1.5em;
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em;
+  /* Adjust as needed */
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
 }
