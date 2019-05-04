@@ -10,14 +10,12 @@ h2 {
 
 @keyframes tick {
   0% {
-    transform: rotate(20deg);
-  }
-  50% {
-    transform: rotate(-160deg);
-    color: red;
+    opacity: 0;
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(20deg);
+    opacity: 1;
+    transform: rotate(90deg);
   }
 }
 
@@ -46,31 +44,31 @@ h2 {
   0% {
     opacity: 0;
   }
-  5% {
-    opacity: 1;
-  }
-  7% {
-    opacity: 0;
-  }
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
-.doll {
+#text1 {
+  opacity: 0;
+  animation-name: appear;
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+#text2 {
+  opacity: 0;
+  animation-name: tick;
+  animation-delay: 1.5s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  font-size: 2em;
+}
+
+#text3 {
   opacity: 1;
-  /*
-	animation-name: appear;
- 	animation-delay: 2s;
- 	animation-duration: 10s;
- 	animation-iteration-count: infinite;
-	*/
-  position: fixed;
-  top: 0;
-  left: 0;
-  transform: rotate(90deg);
-  width: 50%;
-  z-index: -1;
+  font-size: 10em;
 }
 
 .zalgo {
@@ -90,8 +88,16 @@ h2 {
   width: 300px;
 }
 
+#hawk {
+  display: none;
+  opacity: .8;
+  z-index: -1;
+  width: 80%;
+}
+
 .typewriter {
-  font-size: 2em;
+  color: yellow;
+  font-size: 1.5em;
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange;
@@ -111,7 +117,7 @@ h2 {
     width: 0;
   }
   to {
-    width: 50%;
+    width: 100%;
   }
 }
 
