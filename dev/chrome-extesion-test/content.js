@@ -17,9 +17,9 @@
     let eyes = document.createElement("img");
     eyes.style.position = "absolute";
     eyes.style.zIndex = "-1";
-    eyes.style.width = "55%";
-    eyes.style.top = "56px";
-    eyes.style.left = "43px";
+    eyes.style.width = "8%";
+    eyes.style.top = "40%";
+    eyes.style.left = "40%";
     eyes.src = chrome.runtime.getURL("uncompressed-images/eye.png");
 
     if (bigImgs.length > 3) {
@@ -28,12 +28,20 @@
       cursedImg.style.height = "auto";
       cursedImg.src = imgUrl;
       cursedImg.parentNode.append(eyes);
+      cursedImg.parentNode.append(eyes);
       if (cursedImg.srcset) cursedImg.removeAttribute("srcset");
       if (cursedImg.parentElement.tagName === "A") {
         cursedImg.parentElement.href = destinationURL;
       }
       cursedImg.parentElement.addEventListener("click", () => {
         window.location.href = destinationURL;
+      });
+
+      body.addEventListener("mousemove", e => {
+        eyes.style.transform = `translate(${e.clientX /
+          (window.innerWidth / 5)}px, ${e.clientY /
+          (window.innerHeight / 5)}px)`;
+        console.log(e.clientX / (window.innerWidth / 5));
       });
     }
   };
