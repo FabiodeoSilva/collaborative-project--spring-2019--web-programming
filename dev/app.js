@@ -12,12 +12,3 @@ let dryStage = new Stage(2, 33, arr, true);
 
 const haunter = new Haunter(33, [sayStage, cryStage, dryStage]);
 haunter.init();
-
-/*function answer(response) {
-  console.log(response);
-}
-
-chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
-  console.log(message);
-});
-*/
