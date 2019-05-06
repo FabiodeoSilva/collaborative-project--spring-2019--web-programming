@@ -10,6 +10,8 @@ const cssLinter = require(`gulp-stylelint`);
 const jsLinter = require(`gulp-eslint`);
 const browserSync = require(`browser-sync`);
 const reload = browserSync.reload;
+const browserify = require(`browserify`);
+const fs = require(`fs`);
 
 /*Directory Names */
 const sassSrc = `dev/sass/main.scss`;
@@ -19,14 +21,12 @@ const htmlDest = `prod/`;
 const imgSrc = `dev/uncompressed-images/**/`;
 const imgDest = `prod/images/`;
 const jsSrc = `dev/`;
-<<<<<<< HEAD
-=======
-const cxSrc = `dev/chrome-extesion-test/`;
->>>>>>> dev
 const jsDest = `prod/`;
 const serveSrc = `dev/`;
 const libSrc = `dev/chrome-extesion-test/libs`;
 const libDest = `prod/lib`;
+const tfSrc = 'dev/chrome-extesion-test/manifest.json';
+const tfDest = 'prod/manifest.json';
 
 let compileCSS = () => {
   return src(sassSrc)
@@ -81,11 +81,31 @@ let compressImages = () => {
 };
 
 let compressJS = () => {
-  return src(`${jsSrc}/app.js`)
+  return src(`${jsSrc}/chrome-extesion-test/content.js`)
     .pipe(babel())
     .pipe(jsCompressor())
     .pipe(dest(jsDest));
 };
+
+let transferFile = (done) => {
+
+  let writeStream = fs.createWriteStream(`${tfDest}`);
+
+  writeStream.on('close', ()=>{
+    done();
+  });
+  
+  fs.createReadStream(`${tfSrc}`).pipe(writeStream);
+}
+
+let browserifyTask = () => {
+  return browserify({
+    entries: 'dev/app.js',
+    debug: true
+  })
+  .bundle()
+  .pipe(fs.createWriteStream(`prod/background.js`));
+}
 
 let lintCSS = () => {
   return src(`${sassDest}/*.css`).pipe(
@@ -116,19 +136,6 @@ let serve = () => {
   watch(`sass/main.scss`, series(compileCSS)).on(`change`, reload);
 };
 
-let mkdirs = () => {
-  const fs = require("fs");
-
-  if (!fs.existsSync(`./prod`)) {
-    fs.mkdirSync(`prod`);
-    fs.mkdirSync(`prod/css`);
-    fs.mkdirSync(`prod/js`);
-    fs.mkdirSync(`prod/images`);
-    console.log(`\n`, `prod directory was created`, `\n`);
-  } else {
-    console.log(`\n`, `prod already exists`, `\n`);
-  }
-};
 
 let transferLibs = done => {
   const ncp = require("ncp").ncp;
@@ -150,7 +157,7 @@ exports.build = series(
   compileCSS,
   serve
 );
-exports.serve = series(compileCSSdev, serve);
+exports.serve = series( compressJS, transferLibs, transferFile, browserifyTask);
 exports.compileCSSdev = compileCSSdev;
 exports.compressJS = compressJS;
 exports.compressImages = compressImages;
@@ -160,9 +167,13 @@ exports.compileCSS = compileCSS;
 exports.default = series(
   compileCSS,
   compressJS,
+  browserifyTask,
   validateHTML,
   compressHTML,
   transferLibs,
+  transferFile,
   compressImages
 );
 exports.transferLibs = transferLibs;
+exports.browserifyTask = browserifyTask;
+exports.transferFile = transferFile;
