@@ -19,5 +19,5 @@
       ]
     }
   ],
-  "web_accessible_resources": ["media/*.png"]
+  "web_accessible_resources": ["uncompressed-images/*.png", "../css/*.css"]
 }

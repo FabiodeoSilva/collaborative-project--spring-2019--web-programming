@@ -18,8 +18,8 @@ const sassSrc = `dev/sass/main.scss`;
 const sassDest = `prod/css/`;
 const htmlSrc = `dev/*.html`;
 const htmlDest = `prod/`;
-const imgSrc = `dev/uncompressed-images/**/`;
-const imgDest = `prod/images/`;
+const imgSrc = `dev/chrome-extesion-test/uncompressed-images/**/`;
+const imgDest = `prod/media/`;
 const jsSrc = `dev/`;
 const jsDest = `prod/`;
 const serveSrc = `dev/`;
@@ -157,7 +157,7 @@ exports.build = series(
   compileCSS,
   serve
 );
-exports.serve = series( compressJS, transferLibs, transferFile, browserifyTask);
+exports.dev = series( compressJS, transferLibs, transferFile, browserifyTask);
 exports.compileCSSdev = compileCSSdev;
 exports.compressJS = compressJS;
 exports.compressImages = compressImages;
@@ -165,11 +165,7 @@ exports.compressHTML = compressHTML;
 exports.validateHTML = validateHTML;
 exports.compileCSS = compileCSS;
 exports.default = series(
-  compileCSS,
   compressJS,
-  browserifyTask,
-  validateHTML,
-  compressHTML,
   transferLibs,
   transferFile,
   compressImages

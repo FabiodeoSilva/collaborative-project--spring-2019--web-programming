@@ -9,6 +9,14 @@ class Stage {
     this.range = [];
     this.randomInvocation = randomInvocation;
   }
+
+  sendMessage(curse, paramenter){
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, {curse: curse, para: paramenter}, (response) => {
+        console.log('message sent from background:', curse);
+      });
+    });
+  }
   getTimeLength(maxSeconds) {
     return (this.time = Math.round((maxSeconds * this.percent) / 100));
   }
@@ -25,7 +33,8 @@ class Stage {
   }
   randomCurse(...parameter) {
     let i = Math.floor(Math.random() * this.curses.length);
-    this.curses[i](...parameter);
+   // this.curses[i](...parameter);
+    this.sendMessage(this.curses[i](...parameter), [...para]);
   }
   activate() {
     if (!this.activation) {
@@ -38,7 +47,8 @@ class Stage {
   }
   executeAllCursesAtOnce(...para) {
     this.curses.forEach(curse => {
-      curse(...para);
+      //curse(...para);
+      this.sendMessage(curse, [...para]);
     });
   }
   randomActivationOrder() {
@@ -59,7 +69,8 @@ class Stage {
           if (this.randomInvocation) {
             this.randomCurse(this.id);
           } else {
-            this.curses[this.currCurseIndex](this.id);
+            //this.curses[this.currCurseIndex](this.id);
+            this.sendMessage(this.curses[this.currCurseIndex], this.id);
             if (this.currCurseIndex < this.curses.length - 1)
               this.currCurseIndex++;
           }

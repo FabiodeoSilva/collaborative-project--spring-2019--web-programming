@@ -12,12 +12,11 @@
     {
       "matches": ["<all_urls>"],
       "js": [
-        "libs/jquery-1.11.1.min.js",
-        "libs/jp5.js",
-        "libs/jp5.dom.js",
+        "lib/jquery-1.11.1.min.js",
+        "lib/p5.js",
+        "lib/p5.dom.js",
         "content.js"
-      ],
-      "css": ["style.css"]
+      ]
     }
   ],
   "web_accessible_resources": ["uncompressed-images/*.png", "../css/*.css"]
