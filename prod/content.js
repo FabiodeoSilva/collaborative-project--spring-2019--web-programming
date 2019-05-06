@@ -1,0 +1,1 @@
+"use strict";document.querySelector("body").style.background="purple";

@@ -18,9 +18,12 @@ const htmlSrc = `dev/*.html`;
 const htmlDest = `prod/`;
 const imgSrc = `dev/uncompressed-images/**/`;
 const imgDest = `prod/images/`;
-const jsSrc = `dev/js/`;
-const jsDest = `prod/js/`;
+const jsSrc = `dev/`;
+const cxSrc = `dev/chrome-extesion-test/`;
+const jsDest = `prod/`;
 const serveSrc = `dev/`;
+const libSrc = `dev/chrome-extesion-test/libs`;
+const libDest = `prod/lib`;
 
 let compileCSS = () => {
   return src(sassSrc)
@@ -75,7 +78,7 @@ let compressImages = () => {
 };
 
 let compressJS = () => {
-  return src(`${jsSrc}*.js`)
+  return src(`${jsSrc}/app.js`)
     .pipe(babel())
     .pipe(jsCompressor())
     .pipe(dest(jsDest));
@@ -124,6 +127,19 @@ let mkdirs = () => {
   }
 };
 
+let transferLibs = done => {
+  const ncp = require("ncp").ncp;
+  ncp.limit = 16;
+
+  return ncp(libSrc, libDest, err => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log("done!");
+    done();
+  });
+};
+
 exports.build = series(
   compressHTML,
   compressJS,
@@ -138,3 +154,12 @@ exports.compressImages = compressImages;
 exports.compressHTML = compressHTML;
 exports.validateHTML = validateHTML;
 exports.compileCSS = compileCSS;
+exports.default = series(
+  compileCSS,
+  compressJS,
+  validateHTML,
+  compressHTML,
+  transferLibs,
+  compressImages
+);
+exports.transferLibs = transferLibs;
