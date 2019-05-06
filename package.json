@@ -18,6 +18,7 @@
   "homepage": "https://github.com/FabiodeoSilva/collaborative-project--spring-2019--web-programming#readme",
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.4",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",

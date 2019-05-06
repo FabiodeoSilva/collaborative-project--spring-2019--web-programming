@@ -19,10 +19,7 @@ const htmlDest = `prod/`;
 const imgSrc = `dev/uncompressed-images/**/`;
 const imgDest = `prod/images/`;
 const jsSrc = `dev/`;
-<<<<<<< HEAD
-=======
 const cxSrc = `dev/chrome-extesion-test/`;
->>>>>>> dev
 const jsDest = `prod/`;
 const serveSrc = `dev/`;
 const libSrc = `dev/chrome-extesion-test/libs`;
@@ -118,7 +115,6 @@ let serve = () => {
 
 let mkdirs = () => {
   const fs = require("fs");
-
   if (!fs.existsSync(`./prod`)) {
     fs.mkdirSync(`prod`);
     fs.mkdirSync(`prod/css`);
