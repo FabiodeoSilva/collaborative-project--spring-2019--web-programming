@@ -11,7 +11,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jquery-1.11.1.min.js", "p5.js", "p5.dom.js", "content.js"],
+      "js": [
+        "libs/jquery-1.11.1.min.js",
+        "libs/jp5.js",
+        "libs/jp5.dom.js",
+        "content.js"
+      ],
       "css": ["style.css"]
     }
   ]
