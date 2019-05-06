@@ -1,0 +1,1 @@
+"use strict";console.log("background running"),chrome.storage.sync.get(function(e){e.urls||chrome.storage.sync.set({urls:[]})}),chrome.extension.onMessage.addListener(function(e,n,o){data.clickCounter||chrome.storage.sync.set({clickCounter:0,noteText:""})});
