@@ -1,5 +1,3 @@
-const Stage = require("./stage");
-
 class Haunter {
   constructor(maxSecs, stages) {
     this.stages = stages;
@@ -9,21 +7,25 @@ class Haunter {
     this.checkStageTimeLimit();
     this.setStageTimeRange();
   }
-  sendMessage(message){
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {message: message}, (response) => {
-      });
+
+  /*Chrome Extension Only: Sends messages to content.js */
+  sendMessage(message) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, { message: message }, response => {});
     });
   }
 
+  /*Determines how long each Stage module should last based on the amount of Stages loaded into Haunter.
+    e.g. If 3 Stage modules are loaded into Haunter, then each will last 33.3% of the total time.
+    Result: Updates Stage propriety "percent" */
   checkStageTimeLimit() {
     if (this.stages.length > 0) {
       let totalPercent = 0;
-
       this.stages.forEach(stage => {
         totalPercent += stage.percent;
-        if (this.currStage.percent <= 100 && totalPercent <= 100) {
-        } else {
+
+        /*if the total time limit (in percentage) given by the user surpasses 100%, then split the time evenly among each stage*/
+        if (this.currStage.percent > 100 && totalPercent > 100) {
           console.log(
             `The total time limit for the run does not add up to 100%; All stages will have equal lengths.`
           );
@@ -36,24 +38,25 @@ class Haunter {
       });
     }
   }
+  /*Determines the range in seconds that each stage begins and ends.
+    Result: Populates Stage propriety "range" */
   setStageTimeRange() {
     this.stages.forEach((stage, i) => {
       let start = 0,
         end = 0;
       if (stage == this.stages[0]) {
         end = stage.getTimeLength(this.maxSecs);
-
         stage.getRange([start, end]);
       } else {
         start = this.stages[i - 1].range[1];
         end = start + stage.getTimeLength(this.maxSecs);
-
         stage.getRange([start, end]);
       }
       console.log(stage.range);
     });
   }
 
+  /*Sets the clock on which the extension operates. */
   setTimer() {
     this.timerID = setInterval(() => {
       if (this.currSecs < this.maxSecs) {
@@ -61,49 +64,44 @@ class Haunter {
         this.sendMessage(this.currSecs);
         this.update();
       } else {
+        /*if the timer gets to the end, Kill timer: Game Over */
         this.killTimer();
       }
     }, 1000);
   }
 
+  /*Stops Timer*/
   killTimer() {
     clearInterval(this.timerID);
     this.currSecs = 0;
   }
 
+  /*Sets the propriety "currStage" to the next stage in line*/
   nextStage() {
-    let i = this.stages.indexOf(this.currStage);
-    if (i < this.stages.length - 1) this.currStage = this.stages[i + 1];
+    let currStageIndex = this.stages.indexOf(this.currStage);
+    if (currStageIndex < this.stages.length - 1)
+      this.currStage = this.stages[currStageIndex + 1];
   }
 
+  /*Checks every second if the current stage has reached the end of its duration range. 
+  If it has ended, then activate the next stage in line.*/
   checkCurrStage() {
-    /* if (
-      this.currSecs > this.currStage.range[0] &&
-      this.currSecs < this.currStage.range[1]
-    ) {
-    }*/
     let except = this.stages[0].range[1];
     if (this.currSecs === 1) {
-      console.log(
-        "Stage " + this.currStage.id + ": activated",
-        this.currStage.order
-      );
-     this.currStage.activate();
-
+      console.log("Stage " + this.currStage.id + ": activated");
+      this.currStage.activate();
     } else if (
       this.currSecs === except ||
       this.currSecs === this.currStage.range[1]
     ) {
       this.nextStage();
-      console.log(
-        "Stage " + this.currStage.id + ": activates",
-        this.currStage.order
-      );
+      console.log("Stage " + this.currStage.id + ": activates");
       //this.currStage.executeAllCurses();
       this.currStage.activate();
-
     }
   }
+
+  /*Execute all curses of all activated stages*/
   executeActivatedStages() {
     this.stages.forEach(stage => {
       if (stage.activation) {
@@ -111,13 +109,14 @@ class Haunter {
       }
     });
   }
-
+  /*Check if the current Stage has ended. Executes all curses of all activated stages.*/
   update() {
     this.checkCurrStage();
     this.executeActivatedStages();
     console.log(this.currSecs, this.currStage.id);
   }
 
+  /*Start Timer */
   init() {
     //console.log(this.currStage.getTimeLength(this.maxSecs));
     this.setTimer();
