@@ -18,8 +18,8 @@ const htmlSrc = `dev/*.html`;
 const htmlDest = `prod/`;
 const imgSrc = `dev/uncompressed-images/**/`;
 const imgDest = `prod/images/`;
-const jsSrc = `dev/js/`;
-const jsDest = `prod/js/`;
+const jsSrc = `dev/`;
+const jsDest = `prod/`;
 const serveSrc = `dev/`;
 
 let compileCSS = () => {

@@ -16,18 +16,32 @@
 
     let eyes = document.createElement("img");
     eyes.style.position = "absolute";
-    eyes.style.zIndex = "-1";
-    eyes.style.width = "8%";
-    eyes.style.top = "40%";
-    eyes.style.left = "40%";
-    eyes.src = chrome.runtime.getURL("uncompressed-images/eye.png");
+    eyes.src = chrome.runtime.getURL("uncompressed-images/gorleyes_2.png");
 
     if (bigImgs.length > 3) {
       let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
-      console.log("cursed: " + cursedImg);
-      cursedImg.style.height = "auto";
-      cursedImg.src = imgUrl;
-      cursedImg.parentNode.append(eyes);
+      console.log(
+        cursedImg,
+        window.getComputedStyle(cursedImg.parentNode).width,
+        window.getComputedStyle(cursedImg.parentNode).height
+      );
+      let frame = document.createElement("div");
+      frame.style.width = window.getComputedStyle(cursedImg.parentNode).width;
+      frame.style.height = window.getComputedStyle(cursedImg.parentNode).height;
+      frame.style.position = "absolute";
+      frame.style.top = "0px";
+      frame.style.zIndex = "2";
+      frame.style.backgroundPosition = "top center";
+      frame.style.backgroundImage = `url('${chrome.runtime.getURL(
+        "uncompressed-images/gorleyes_1.png"
+      )}')`;
+      frame.style.backgroundRepeat = "no-repeat";
+      frame.style.backgroundSize = "contain";
+      cursedImg.parentNode.style.position = "relative";
+      cursedImg.parentNode.append(frame);
+      eyes.style.width = `calc(${frame.style.width}/2.2)`;
+      eyes.style.top = `calc(${frame.style.height}/4.5)`;
+      eyes.style.left = `calc(${frame.style.width}/3.5)`;
       cursedImg.parentNode.append(eyes);
       if (cursedImg.srcset) cursedImg.removeAttribute("srcset");
       if (cursedImg.parentElement.tagName === "A") {
