@@ -70,14 +70,14 @@ class Haunter {
 
   /*Determines how long each Stage module should last based on the amount of Stages loaded into Haunter.
 e.g. If 3 Stage modules are loaded into Haunter, then each will last 33.3% of the total time.
-Result: Updates Stage propriety "percent" */
+Result: Updates Stage modules' propriety "percent" */
   checkStageTimeLimit() {
     if (this.stages.length > 0) {
       let totalPercent = 0;
       this.stages.forEach(stage => {
         totalPercent += stage.percent;
 
-        /*if the total time limit (in percentage) given by the user surpasses 100%, then split the time evenly among each stage*/
+        /*if the total time limit (in percentage) given by the user surpasses 100%, then split the total time evenly among each stage*/
         if (this.currStage.percent > 100 && totalPercent > 100) {
           console.log(
             `The total time limit for the run does not add up to 100%; All stages will have equal lengths.`

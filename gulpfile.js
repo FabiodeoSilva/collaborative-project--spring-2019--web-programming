@@ -28,6 +28,93 @@ const libDest = `prod/lib`;
 const tfSrc = "dev/chrome-extesion-test/manifest.json";
 const tfDest = "prod/manifest.json";
 
+let browserifyBackground = () => {
+  return browserify({
+    entries: ["dev/app.js"],
+    debug: true
+  })
+    .bundle()
+    .pipe(fs.createWriteStream(`prod/background.js`));
+};
+
+let browserifyContent = () => {
+  return browserify({
+    entries: ["dev/content.js"],
+    debug: true
+  })
+    .bundle()
+    .pipe(fs.createWriteStream(`prod/content.js`));
+};
+let compressJS = () => {
+  return src(`${jsSrc}`)
+    .pipe(babel())
+    .pipe(jsCompressor())
+    .pipe(dest(jsDest));
+};
+
+let transferFile = done => {
+  let writeStream = fs.createWriteStream(`${tfDest}`);
+
+  writeStream.on("close", () => {
+    done();
+  });
+
+  fs.createReadStream(`${tfSrc}`).pipe(writeStream);
+};
+
+let transferLibs = done => {
+  const ncp = require("ncp").ncp;
+  ncp.limit = 16;
+
+  return ncp(libSrc, libDest, err => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log("done!");
+    done();
+  });
+};
+
+let compressImages = () => {
+  return src([
+    `${imgSrc}*.png`,
+    `${imgSrc}*.jpg`,
+    `${imgSrc}*.svg`,
+    `${imgSrc}*.gif`
+  ])
+    .pipe(
+      cache(
+        imageCompressor({
+          optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
+          progressive: true, // For JPG files.
+          multipass: false, // For SVG files. Set to true for compression.
+          interlaced: false // For GIF files. Set to true for compression.
+        })
+      )
+    )
+    .pipe(dest(imgDest));
+};
+
+let lintJS = () => {
+  return src(`${jsSrc}/*.js`)
+    .pipe(jsLinter())
+    .pipe(jsLinter.formatEach(`compact`, process.stderr));
+};
+
+let serve = () => {
+  browserSync({
+    notify: true,
+    reloadDelay: 100, // A delay is sometimes helpful when reloading at the
+    server: {
+      // end of a series of tasks.
+      baseDir: [`${serveSrc}`, `html`]
+    }
+  });
+
+  watch(`index.html`).on(`change`, reload);
+  watch(`sass/main.scss`, series(compileCSS)).on(`change`, reload);
+};
+
 let compileCSS = () => {
   return src(sassSrc)
     .pipe(
@@ -59,53 +146,6 @@ let compressHTML = () => {
     .pipe(htmlCompressor({ collapseWhitespace: true }))
     .pipe(dest(htmlDest));
 };
-
-let compressImages = () => {
-  return src([
-    `${imgSrc}*.png`,
-    `${imgSrc}*.jpg`,
-    `${imgSrc}*.svg`,
-    `${imgSrc}*.gif`
-  ])
-    .pipe(
-      cache(
-        imageCompressor({
-          optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
-          progressive: true, // For JPG files.
-          multipass: false, // For SVG files. Set to true for compression.
-          interlaced: false // For GIF files. Set to true for compression.
-        })
-      )
-    )
-    .pipe(dest(imgDest));
-};
-
-let compressJS = () => {
-  return src(`${jsSrc}/chrome-extesion-test/content.js`)
-    .pipe(babel())
-    .pipe(jsCompressor())
-    .pipe(dest(jsDest));
-};
-
-let transferFile = done => {
-  let writeStream = fs.createWriteStream(`${tfDest}`);
-
-  writeStream.on("close", () => {
-    done();
-  });
-
-  fs.createReadStream(`${tfSrc}`).pipe(writeStream);
-};
-
-let browserifyTask = () => {
-  return browserify({
-    entries: "dev/app.js",
-    debug: true
-  })
-    .bundle()
-    .pipe(fs.createWriteStream(`prod/background.js`));
-};
-
 let lintCSS = () => {
   return src(`${sassDest}/*.css`).pipe(
     cssLinter({
@@ -115,59 +155,23 @@ let lintCSS = () => {
   );
 };
 
-let lintJS = () => {
-  return src(`${jsSrc}/*.js`)
-    .pipe(jsLinter())
-    .pipe(jsLinter.formatEach(`compact`, process.stderr));
-};
-
-let serve = () => {
-  browserSync({
-    notify: true,
-    reloadDelay: 100, // A delay is sometimes helpful when reloading at the
-    server: {
-      // end of a series of tasks.
-      baseDir: [`${serveSrc}`, `html`]
-    }
-  });
-
-  watch(`index.html`).on(`change`, reload);
-  watch(`sass/main.scss`, series(compileCSS)).on(`change`, reload);
-};
-
-let transferLibs = done => {
-  const ncp = require("ncp").ncp;
-  ncp.limit = 16;
-
-  return ncp(libSrc, libDest, err => {
-    if (err) {
-      return console.error(err);
-    }
-    console.log("done!");
-    done();
-  });
-};
-
-exports.build = series(
-  compressHTML,
+exports.default = series(
   compressJS,
-  compressImages,
-  compileCSS,
-  serve
+  browserifyBackground,
+  browserifyContent,
+  compressJS,
+  transferLibs,
+  transferFile
 );
-exports.dev = series(compressJS, transferLibs, transferFile, browserifyTask);
+exports.dev = series(browserifyBackground, browserifyContent, compressJS);
+
 exports.compileCSSdev = compileCSSdev;
 exports.compressJS = compressJS;
 exports.compressImages = compressImages;
 exports.compressHTML = compressHTML;
 exports.validateHTML = validateHTML;
 exports.compileCSS = compileCSS;
-exports.default = series(
-  compressJS,
-  transferLibs,
-  transferFile,
-  compressImages
-);
 exports.transferLibs = transferLibs;
-exports.browserifyTask = browserifyTask;
+exports.browserifyBackground = browserifyBackground;
+exports.browserifyContent = browserifyContent;
 exports.transferFile = transferFile;
