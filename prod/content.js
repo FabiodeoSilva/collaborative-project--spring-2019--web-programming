@@ -1,1 +1,1 @@
-"use strict";document.querySelector("body").style.background="purple";
+"use strict";chrome.runtime.onMessage.addListener(function(e,s,o){console.log(e.message),"say"===e.message&&(document.querySelector("body").style.background="pink")});

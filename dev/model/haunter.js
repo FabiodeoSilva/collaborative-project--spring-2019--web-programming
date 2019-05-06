@@ -9,6 +9,12 @@ class Haunter {
     this.checkStageTimeLimit();
     this.setStageTimeRange();
   }
+  sendMessage(message){
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, {message: message}, (response) => {
+      });
+    });
+  }
 
   checkStageTimeLimit() {
     if (this.stages.length > 0) {
@@ -52,6 +58,7 @@ class Haunter {
     this.timerID = setInterval(() => {
       if (this.currSecs < this.maxSecs) {
         this.currSecs += 1;
+        this.sendMessage(this.currSecs);
         this.update();
       } else {
         this.killTimer();
@@ -81,7 +88,8 @@ class Haunter {
         "Stage " + this.currStage.id + ": activated",
         this.currStage.order
       );
-      this.currStage.activate();
+     this.currStage.activate();
+
     } else if (
       this.currSecs === except ||
       this.currSecs === this.currStage.range[1]
@@ -93,6 +101,7 @@ class Haunter {
       );
       //this.currStage.executeAllCurses();
       this.currStage.activate();
+
     }
   }
   executeActivatedStages() {

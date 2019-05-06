@@ -1,13 +1,26 @@
 (function() {
-  let body = document.querySelector("body");
-  // body.style.background = "pink";
+  
+  // 
   /* check out google.com for example */
 
-  chrome.runtime.sendMessage({ greeting: "hello" }, function(response) {
+  /*chrome.runtime.sendMessage({ greeting: "hello" }, function(response) {
     console.log(response);
-  });
+  });*/
 
-  let activateCursedImage = (imgUrl, destinationURL) => {
+  let sayhi = () => {
+    let body = document.querySelector("body");
+    body.style.background = "pink";
+  }
+  chrome.runtime.onMessage.addListener(
+    (request, sender, sendResponse) => {
+      console.log(request.message);
+      if(request.message === "say"){
+        sayhi();
+      }
+
+    });
+
+    let activateCursedImage = (imgUrl, destinationURL) => {
     let imgsArr = document.querySelectorAll("img");
     let bigImgs = [];
     imgsArr.forEach(img => {
@@ -16,7 +29,7 @@
 
     let eyes = document.createElement("img");
     eyes.style.position = "absolute";
-    eyes.src = chrome.runtime.getURL("uncompressed-images/gorleyes_2.png");
+    eyes.src = chrome.runtime.getURL("media/gorleyes_2.png");
 
     if (bigImgs.length > 3) {
       let cursedImg = bigImgs[random(2, bigImgs.length - 1)];
@@ -33,7 +46,7 @@
       frame.style.zIndex = "2";
       frame.style.backgroundPosition = "top center";
       frame.style.backgroundImage = `url('${chrome.runtime.getURL(
-        "uncompressed-images/gorleyes_1.png"
+        "media/gorleyes_1.png"
       )}')`;
       frame.style.backgroundRepeat = "no-repeat";
       frame.style.backgroundSize = "contain";
@@ -65,8 +78,8 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  activateCursedImage(
+  /*activateCursedImage(
     chrome.runtime.getURL("uncompressed-images/gorleyes_1.png"),
     "https://github.com/"
-  );
+  );*/
 })();
