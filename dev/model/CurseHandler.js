@@ -4,12 +4,25 @@ class CurseHandler {
   }
   init() {
     this.listenForActivation();
-    this.curseArr[0]();
   }
   listenForActivation() {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      console.log(request);
+      this.parseRequest(request);
     });
+  }
+  parseRequest(request) {
+    let key = Object.keys(request);
+    if (key[0] == `curse`) {
+      this.curseArr.forEach(curse => {
+        console.log(curse.name === request.curse, curse.name, request.curse);
+        if (curse.name === request.curse) {
+          console.log("curse activated", curse);
+          curse();
+        }
+      });
+    } else if (key[0] == `message`) {
+      //console.log(request.message);
+    }
   }
 }
 

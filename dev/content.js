@@ -1,5 +1,5 @@
 const CurseHandler = require("./model/CurseHandler.js");
-const test = require("./curses/test.js");
+const sayhi = require("./curses/test.js");
 
-let curseHandler = new CurseHandler([test]);
+let curseHandler = new CurseHandler([sayhi]);
 curseHandler.init();
