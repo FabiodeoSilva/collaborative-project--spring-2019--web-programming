@@ -3,5 +3,5 @@ const sayhi = require("./curses/test.js");
 const Blood = require("./curses/bloodyScreen");
 const Swarm = require("./curses/cursorSwarm");
 
-let curseHandler = new CurseHandler([Swarm, sayhi, Blood]);
+let curseHandler = new CurseHandler([Swarm, sayhi, Blood, Swarm, Blood]);
 curseHandler.init();
