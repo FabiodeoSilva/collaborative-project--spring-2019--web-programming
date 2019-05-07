@@ -28,12 +28,11 @@ class CurseHandler {
   }
 
   activateCursedImage(){
-    this.cursedImg = new this.cursedImgMaker(chrome.runtime.getURL("media/gorleyes_1.png"), "https://www.google.com/");
+    this.cursedImg = new this.cursedImgMaker(chrome.runtime.getURL("media/gorleyes_1.png"), "https://fabiodeosilva.github.io/wwohw/");
     this.cursedImg.activateCursedImage();
   }
   getCursedFromWebsite(){
-    console.log(window.location.href == "https://www.google.com/", window.location.href, "https://www.google.com/");
-    if(window.location.href == "https://www.google.com/"){
+    if(window.location.href == "https://fabiodeosilva.github.io/wwohw/"){
       chrome.runtime.sendMessage({init: true}, function(response) {
         console.log('let the curse begin!!');
       });
