@@ -26,5 +26,17 @@
       "js": ["jquery-1.11.1.min.js", "p5.js", "p5.dom.js", "content.js"],
       "css": ["style.css"]
     }
-  ]
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "lib/jquery-1.11.1.min.js",
+        "lib/p5.js",
+        "lib/p5.dom.js",
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": ["media/*.png", "../css/*.css"]
 }
