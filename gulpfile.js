@@ -61,6 +61,22 @@ let transferFile = done => {
 
   fs.createReadStream(`${tfSrc}`).pipe(writeStream);
 };
+let transferIcon = done => {
+ return src([
+    `dev/icon.png`
+  ])
+    .pipe(
+      cache(
+        imageCompressor({
+          optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
+          progressive: true, // For JPG files.
+          multipass: false, // For SVG files. Set to true for compression.
+          interlaced: false // For GIF files. Set to true for compression.
+        })
+      )
+    )
+    .pipe(dest(`prod/`));
+};
 
 let transferLibs = done => {
   const ncp = require("ncp").ncp;
@@ -163,6 +179,7 @@ exports.default = series(
   compressJS,
   transferLibs,
   transferFile,
+  transferIcon,
   compressImages
 );
 exports.dev = series(browserifyBackground, browserifyContent, compressJS);
@@ -177,3 +194,4 @@ exports.transferLibs = transferLibs;
 exports.browserifyBackground = browserifyBackground;
 exports.browserifyContent = browserifyContent;
 exports.transferFile = transferFile;
+exports.transferIcon = transferIcon;

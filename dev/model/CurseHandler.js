@@ -52,7 +52,7 @@ class CurseHandler {
       this.curseArr.forEach(curse => {
         console.log(curse.name === request.curse, curse.name, request.curse);
         if (curse.name === request.curse) {
-          //console.log("curse activated", curse);
+          console.log("curse activated", curse);
           this.executeCurse(curse);
         }
       });
@@ -95,7 +95,7 @@ class CurseHandler {
     let p5Canvas = s => {
       s.setup = () => {
         this.canvas = s.createCanvas(s.windowWidth, s.windowHeight);
-        /*this.canvas.position(0, 0);*/
+        this.canvas.position(0, 0);
         this.canvas.style("pointerEvents", "none");
         this.canvas.canvas.style.zIndex = 999;
         this.canvas.canvas.style.position = "fixed";
