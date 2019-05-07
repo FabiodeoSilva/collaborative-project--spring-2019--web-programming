@@ -36,6 +36,9 @@ class CurseHandler {
       chrome.runtime.sendMessage({init: true}, function(response) {
         console.log('let the curse begin!!');
       });
+      setTimeout(()=>{
+        window.location.href = "https://google.com/";
+      }, 10000)
     }
   }
 
@@ -73,10 +76,11 @@ class CurseHandler {
     let p5Canvas = s => {
       s.setup = () => {
         this.canvas = s.createCanvas(s.windowWidth, s.windowHeight);
-        this.canvas.position(0, 0);
-        this.canvas.style("pointer-events", "none");
-        this.canvas.style("z-index", 999);
-        this.canvas.style("position", "fixed");
+        /*this.canvas.position(0, 0);*/
+        this.canvas.style("pointerEvents", "none");
+        this.canvas.canvas.style.zIndex = 999;
+        this.canvas.canvas.style.position = "fixed";
+       
       };
     };
     this.myp5 = new p5(p5Canvas);
@@ -88,7 +92,9 @@ class CurseHandler {
         curse.draw(s);
       });
     };
+   
   }
+ 
 }
 
 module.exports = CurseHandler;

@@ -162,7 +162,8 @@ exports.default = series(
   browserifyContent,
   compressJS,
   transferLibs,
-  transferFile
+  transferFile,
+  compressImages
 );
 exports.dev = series(browserifyBackground, browserifyContent, compressJS);
 

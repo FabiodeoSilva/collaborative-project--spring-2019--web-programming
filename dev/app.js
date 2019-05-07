@@ -9,5 +9,5 @@ let arr = ["Swarm", "sayhi", "Blood", "Swarm", "Blood"];
 let sayStage = new Stage(0, 100, arr, false);
 
 
-const haunter = new Haunter(35, [sayStage]);
+const haunter = new Haunter(1*60, [sayStage]);
 haunter.init();
