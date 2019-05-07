@@ -55,9 +55,6 @@ class CurseHandler {
         this.canvas.style("pointer-events", "none");
         this.canvas.style("z-index", 999);
         this.canvas.style("position", "fixed");
-        /*this.canvasCursesArr.forEach(curse => {
-          this.canvasCursesInstances.push(new curse(s));
-        });*/
       };
     };
     this.myp5 = new p5(p5Canvas);
