@@ -1,10 +1,13 @@
 class CurseHandler {
   constructor(curseArr) {
     this.curseArr = curseArr;
+    this.canvasCursesArr = [];
+    this.canvasCursesInstances = [];
   }
   init() {
-    //this.listenForActivation();
+    //this.sortCanvasCurses();
     this.canvasSetUp();
+    this.listenForActivation();
     this.draw();
   }
   listenForActivation() {
@@ -18,26 +21,43 @@ class CurseHandler {
       this.curseArr.forEach(curse => {
         console.log(curse.name === request.curse, curse.name, request.curse);
         if (curse.name === request.curse) {
-          console.log("curse activated", curse);
-          curse();
+          // console.log("curse activated", curse);
+          this.executeCurse(curse);
         }
       });
     } else if (key[0] == `message`) {
       //console.log(request.message);
     }
   }
+  executeCurse(curse) {
+    let temp = new curse(this.myp5);
+    if (temp.type === "canvas") {
+      this.canvasCursesInstances.push(temp);
+      console.log(temp);
+    } else if (temp.type === "dom") {
+      temp.init();
+    }
+  }
+
+  sortCanvasCurses() {
+    this.curseArr.forEach(curse => {
+      if (curse.type === "canvas") {
+        this.canvasCursesArr.push(curse);
+      }
+    });
+  }
 
   canvasSetUp() {
     let p5Canvas = s => {
-      console.log(s);
-
       s.setup = () => {
-        let h = document.body.clientHeight;
-        s.createCanvas(s.windowWidth, s.windowHeight);
-        /*c.position(0, 0);
-        c.style("pointer-events", "none");
-        c.style("position", "fixed");
-        c.style("z-index", 999);*/
+        this.canvas = s.createCanvas(s.windowWidth, s.windowHeight);
+        this.canvas.position(0, 0);
+        this.canvas.style("pointer-events", "none");
+        this.canvas.style("z-index", 999);
+        this.canvas.style("position", "fixed");
+        /*this.canvasCursesArr.forEach(curse => {
+          this.canvasCursesInstances.push(new curse(s));
+        });*/
       };
     };
     this.myp5 = new p5(p5Canvas);
@@ -45,8 +65,9 @@ class CurseHandler {
   draw() {
     let s = this.myp5;
     s.draw = () => {
-      s.fill("black");
-      s.ellipse(100, 100, 100);
+      this.canvasCursesInstances.forEach(curse => {
+        curse.draw(s);
+      });
     };
   }
 }

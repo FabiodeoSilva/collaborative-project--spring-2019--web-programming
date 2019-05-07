@@ -5,7 +5,7 @@ const Stage = require("./model/stage");
 
 ("using namespace");
 
-let arr = ["sayhi", "cry", "why", "fry", "bye"];
+let arr = ["sayhi", "Blood", "why", "fry", "bye"];
 let sayStage = new Stage(0, 33, arr, false);
 let cryStage = new Stage(1, 33, arr, false);
 let dryStage = new Stage(2, 33, arr, true);
