@@ -5,6 +5,7 @@ class CursedImg{
     this.destinationURL = destinationURL;
   }
   activateCursedImage() {
+    let body = document.querySelector("body");
     let imgsArr = document.querySelectorAll("img");
     let bigImgs = [];
     imgsArr.forEach(img => {

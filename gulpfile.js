@@ -18,14 +18,14 @@ const sassSrc = `dev/sass/main.scss`;
 const sassDest = `prod/css/`;
 const htmlSrc = `dev/*.html`;
 const htmlDest = `prod/`;
-const imgSrc = `dev/chrome-extesion-test/uncompressed-images/**/`;
+const imgSrc = `dev/uncompressed-images/`;
 const imgDest = `prod/media/`;
 const jsSrc = `dev/`;
 const jsDest = `prod/`;
 const serveSrc = `dev/`;
 const libSrc = `dev/chrome-extesion-test/libs`;
 const libDest = `prod/lib`;
-const tfSrc = "dev/chrome-extesion-test/manifest.json";
+const tfSrc = "dev/manifest.json";
 const tfDest = "prod/manifest.json";
 
 let browserifyBackground = () => {
@@ -76,6 +76,7 @@ let transferLibs = done => {
 };
 
 let compressImages = () => {
+  console.log(`${imgSrc}*.png`);
   return src([
     `${imgSrc}*.png`,
     `${imgSrc}*.jpg`,

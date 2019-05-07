@@ -11,7 +11,7 @@ class Haunter {
 
   /*Start Timer */
   init() {
-    listenForActivation();
+    this.listenForActivation();
     if(this.activation){
       this.setTimer();
     }

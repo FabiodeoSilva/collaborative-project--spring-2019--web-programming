@@ -1,24 +1,46 @@
 class CurseHandler {
-  constructor(cursedImg, curseArr) {
+  constructor(cursedImgMaker, curseArr) {
     this.curseArr = curseArr;
     this.canvasCursesArr = [];
     this.canvasCursesInstances = [];
-    this.cursedImg = cursedImg;
+    this.cursedImgMaker = cursedImgMaker;
   }
   init() {
-    //this.sortCanvasCurses();
+    /*Puts cursed image online and listen for user's click*/
+    this.listenForCurse();
+
+    /*If background script is activated, then it listens for background messages*/
+    this.listenForBackgroundMessages();
+    
+    /*Creates a P5 instance so canvas-curses can use it */
+    this.canvasSetUp();
+
+    /*Draw current canvas curses*/
+    this.draw();
+  }
+
+  listenForCurse(){
+    /*Puts cursed image on screen somewhere */
     this.activateCursedImage();
-   /* this.canvasSetUp();
-    this.listenForActivation();
-    this.draw();*/
+    /*Curses user if current url matches target url. 
+    **********Activates background script******/
+    this.getCursedFromWebsite();
   }
 
   activateCursedImage(){
-    this.cursedImg(chrome.runtime.getURL("media/gorleyes_1.png"), "https://github.com");
-    console.log('here');
+    this.cursedImg = new this.cursedImgMaker(chrome.runtime.getURL("media/gorleyes_1.png"), "https://www.google.com/");
+    this.cursedImg.activateCursedImage();
+  }
+  getCursedFromWebsite(){
+    console.log(window.location.href == "https://www.google.com/", window.location.href, "https://www.google.com/");
+    if(window.location.href == "https://www.google.com/"){
+      chrome.runtime.sendMessage({init: true}, function(response) {
+        console.log('let the curse begin!!');
+      });
+    }
   }
 
-  listenForActivation() {
+  listenForBackgroundMessages() {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       this.parseRequest(request);
     });
