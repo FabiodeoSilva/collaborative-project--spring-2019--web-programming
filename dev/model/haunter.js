@@ -6,12 +6,30 @@ class Haunter {
     this.maxSecs = maxSecs;
     this.checkStageTimeLimit();
     this.setStageTimeRange();
+    this.activation = false;
   }
 
   /*Start Timer */
   init() {
-    //console.log(this.currStage.getTimeLength(this.maxSecs));
-    this.setTimer();
+    listenForActivation();
+    if(this.activation){
+      this.setTimer();
+    }
+  }
+  activate(){
+    this.activation = true; 
+  }
+  listenForActivation(){
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if(request.init == true){
+        this.activation = true;
+        this.init();
+      }
+      else if(request.init == false){
+        this.activation = false;
+        this.killTimer();
+      }
+    });
   }
 
   /*Sets the clock on which the extension operates. */

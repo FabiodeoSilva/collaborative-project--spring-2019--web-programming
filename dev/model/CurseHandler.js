@@ -1,15 +1,23 @@
 class CurseHandler {
-  constructor(curseArr) {
+  constructor(cursedImg, curseArr) {
     this.curseArr = curseArr;
     this.canvasCursesArr = [];
     this.canvasCursesInstances = [];
+    this.cursedImg = cursedImg;
   }
   init() {
     //this.sortCanvasCurses();
-    this.canvasSetUp();
+    this.activateCursedImage();
+   /* this.canvasSetUp();
     this.listenForActivation();
-    this.draw();
+    this.draw();*/
   }
+
+  activateCursedImage(){
+    this.cursedImg(chrome.runtime.getURL("media/gorleyes_1.png"), "https://github.com");
+    console.log('here');
+  }
+
   listenForActivation() {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       this.parseRequest(request);
@@ -38,14 +46,6 @@ class CurseHandler {
     } else if (temp.type === "dom") {
       temp.init();
     }
-  }
-
-  sortCanvasCurses() {
-    this.curseArr.forEach(curse => {
-      if (curse.type === "canvas") {
-        this.canvasCursesArr.push(curse);
-      }
-    });
   }
 
   canvasSetUp() {
