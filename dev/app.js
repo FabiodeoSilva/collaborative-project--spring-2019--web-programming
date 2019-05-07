@@ -5,10 +5,9 @@ const Stage = require("./model/stage");
 
 ("using namespace");
 
-let arr = ["sayhi", "Blood", "why", "fry", "bye"];
-let sayStage = new Stage(0, 33, arr, false);
-let cryStage = new Stage(1, 33, arr, false);
-let dryStage = new Stage(2, 33, arr, true);
+let arr = ["Swarm", "sayhi", "Blood"];
+let sayStage = new Stage(0, 100, arr, false);
 
-const haunter = new Haunter(33, [sayStage, cryStage, dryStage]);
+
+const haunter = new Haunter(35, [sayStage]);
 haunter.init();

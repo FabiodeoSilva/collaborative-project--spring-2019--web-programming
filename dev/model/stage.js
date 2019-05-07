@@ -72,7 +72,7 @@ class Stage {
     The numbers represent the time (in seconds) that each curse gets invoked.*/
   randomActivationOrder() {
     this.order = [];
-    for (let i = 0; i <= this.curses.length; i++) {
+    for (let i = 0; i <= this.curses.length-1; i++) {
       this.order[i] = this.random(this.range[0], this.range[1]);
     }
   }
@@ -88,20 +88,31 @@ class Stage {
   If*/
   execute(t) {
     if (this.activation) {
+      if (this.randomInvocation) {
+        this.randomCurse(this.id);
+      }else{
+        for (let i = 0; i <= this.order.length-1; i++) {
+          if (t === this.order[i]) {
+            this.sendMessage(this.curses[this.currCurseIndex], this.id);
+            if (this.currCurseIndex < this.curses.length - 1) this.currCurseIndex++;
+          }
+        }
+        console.log(t, this.range, this.order);
+      }
+    }
+  }
+}
+/*
       for (let i = 0; i <= this.order.length; i++) {
         if (t === this.order[i]) {
           if (this.randomInvocation) {
             this.randomCurse(this.id);
           } else {
             //this.curses[this.currCurseIndex](this.id);
-            this.sendMessage(this.curses[this.currCurseIndex], this.id);
-            if (this.currCurseIndex < this.curses.length - 1)
-              this.currCurseIndex++;
+            console.log('here');
+            
+            
           }
         }
-      }
-    }
-  }
-}
-
+      } */
 module.exports = Stage;

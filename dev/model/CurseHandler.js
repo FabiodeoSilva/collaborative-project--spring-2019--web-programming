@@ -21,17 +21,18 @@ class CurseHandler {
       this.curseArr.forEach(curse => {
         console.log(curse.name === request.curse, curse.name, request.curse);
         if (curse.name === request.curse) {
-          // console.log("curse activated", curse);
+          //console.log("curse activated", curse);
           this.executeCurse(curse);
         }
       });
     } else if (key[0] == `message`) {
-      //console.log(request.message);
+      console.log(request.message);
     }
   }
   executeCurse(curse) {
     let temp = new curse(this.myp5);
     if (temp.type === "canvas") {
+      this.canvasCursesInstances = [];
       this.canvasCursesInstances.push(temp);
       console.log(temp);
     } else if (temp.type === "dom") {

@@ -16,11 +16,13 @@ class Blood {
   }
 
   draw(s) {
+    s.push();
     this.bloodArr.forEach(drop => {
       s.stroke(s.color(drop.red, 0, 0));
       s.point(drop.xPos, drop.yPos);
       if (drop.yPos <= s.height) drop.yPos += drop.SpeedRate;
     });
+    s.pop();
   }
 
   getRndBias(min, max, bias, influence) {
