@@ -41,15 +41,14 @@ class CurseHandler {
       }, 10000)
     }
   }
-
-  listenForBackgroundMessages() {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      this.parseRequest(request);
+  storeCurse(storedCurse){
+    chrome.storage.sync.set({curses: storedCurse}, ()=>{
+      console.log( "was set in storage");
     });
   }
   parseRequest(request) {
-    let key = Object.keys(request);
-    if (key[0] == `curse`) {
+    let requestkey = Object.keys(request);
+    if (requestkey[0] == `curse`) {
       this.curseArr.forEach(curse => {
         console.log(curse.name === request.curse, curse.name, request.curse);
         if (curse.name === request.curse) {
@@ -57,10 +56,28 @@ class CurseHandler {
           this.executeCurse(curse);
         }
       });
-    } else if (key[0] == `message`) {
-      console.log(request.message);
+    } else if (requestkey[0] == `message`) {
+      if(request.message == "dead"){
+        console.log('here');
+        this.killApp();
+      }
     }
   }
+
+  persistentCurses(){
+    let t= this;
+    chrome.storage.sync.get(["curses"], function(allCurses) {
+      console.log(this.parseRequest);
+      t.parseRequest(Object.values(allCurses));
+    });
+  }
+
+  listenForBackgroundMessages() {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      this.parseRequest(request);
+    });
+  }
+
   executeCurse(curse) {
     let temp = new curse(this.myp5);
     if (temp.type === "canvas") {
@@ -69,7 +86,9 @@ class CurseHandler {
       console.log(temp);
     } else if (temp.type === "dom") {
       temp.init();
+      this.storeCurse(curse.name);
     }
+    
   }
 
   canvasSetUp() {
@@ -93,6 +112,11 @@ class CurseHandler {
       });
     };
    
+  }
+  killApp(){
+    chrome.storage.sync.remove("curses", ()=>{
+      console.log('storage cleaned');
+    });
   }
  
 }

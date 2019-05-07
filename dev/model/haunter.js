@@ -42,6 +42,8 @@ class Haunter {
       } else {
         /*if the timer gets to the end, Kill timer: Game Over */
         this.killTimer();
+        console.log('dead');
+        this.sendMessage("dead");
       }
     }, 1000);
   }
